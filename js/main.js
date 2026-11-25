@@ -32,11 +32,12 @@ if (modes) {
 const NODES = {
   horizons: { title: 'Turing Box Horizons · Nodo de software', theme: '#071230' },
   ia: { title: 'Turing Box IA · Modo de inteligencia artificial', theme: '#120A33' },
+  videojuegos: { title: 'Turing Box Videojuegos · Modo de videojuegos', theme: '#22081D' },
 };
 const themeColor = document.querySelector('meta[name="theme-color"]');
 const generalTitle = document.title;
 const modeOf = (hash) => Object.keys(NODES).find((m) => hash === `#${m}` || hash.startsWith(`#${m}-`)) ?? null;
-let origin; // centro del botón o enlace pulsado: de ahí nacen el círculo y la difusión
+let origin; // centro del botón o enlace pulsado: de ahí nacen los efectos
 
 const setMode = (mode) => {
   if (mode) root.dataset.mode = mode; else delete root.dataset.mode;
@@ -94,6 +95,40 @@ const diffuse = (update, { x, y }) => new Promise((resolve) => {
   requestAnimationFrame(frame);
 });
 
+// Efecto Horizons: amanecer. La línea de horizonte se traza desde la tecla y la vista nueva se abre desde ella.
+const sunrise = (update, { x }) => {
+  let line;
+  const vt = document.startViewTransition(() => {
+    update();
+    line = Object.assign(document.createElement('div'), { className: 'sunrise' });
+    line.setAttribute('aria-hidden', 'true');
+    document.body.append(line);
+  });
+  const ease = 'cubic-bezier(.2, .8, .2, 1)';
+  vt.ready.then(() => {
+    root.animate({ clipPath: [`inset(0 ${innerWidth - x}px 0 ${x}px)`, 'inset(0 0 0 0)'] },
+      { duration: 380, easing: ease, pseudoElement: '::view-transition-new(sunrise)' });
+    root.animate({ opacity: [1, 1, 0] }, { duration: 1150, pseudoElement: '::view-transition-new(sunrise)' });
+    root.animate({ clipPath: ['inset(66.6% 0 33.3% 0)', 'inset(0 0 0 0)'] },
+      { duration: 720, delay: 300, easing: ease, fill: 'backwards', pseudoElement: '::view-transition-new(root)' });
+  });
+  return vt.finished.finally(() => line?.remove());
+};
+
+// Efecto Videojuegos: carga de nivel. La pantalla se apaga como un CRT, carga el nivel y se vuelve a encender.
+const levelLoad = (update) => new Promise((resolve) => {
+  const el = document.createElement('div');
+  el.className = 'level';
+  el.setAttribute('aria-hidden', 'true');
+  el.innerHTML = '<i class="level__lid"></i><i class="level__lid level__lid--bottom"></i><i class="level__line"></i>'
+    + '<div class="level__card"><p class="level__world">Mundo 03</p><p class="level__name">Videojuegos</p>'
+    + `<p class="level__bar">${'<i></i>'.repeat(10)}</p><p class="level__hint">Cargando nivel…</p></div>`;
+  el.querySelectorAll('.level__bar i').forEach((seg, i) => seg.style.setProperty('--i', i));
+  document.body.append(el);
+  setTimeout(update, 1000); // el nivel nuevo se monta con la pantalla en negro
+  setTimeout(() => { el.remove(); resolve(); }, 1450);
+});
+
 const render = () => {
   const next = modeOf(location.hash);
   if (next === (root.dataset.mode ?? null)) return; // mismo nodo: el navegador hace el scroll al ancla
@@ -107,8 +142,10 @@ const render = () => {
   const { x, y } = origin ?? { x: innerWidth / 2, y: 0 };
   origin = null;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (next === 'ia' && !reduce) { diffuse(update, { x, y }).then(focus); return; }
+  if (!reduce && next === 'ia') { diffuse(update, { x, y }).then(focus); return; }
+  if (!reduce && next === 'videojuegos') { levelLoad(update).then(focus); return; }
   if (!document.startViewTransition) { update(); focus(); return; }
+  if (!reduce && next === 'horizons') { sunrise(update, { x }).then(focus); return; }
   const vt = document.startViewTransition(update);
   vt.finished.finally(focus);
   if (reduce) return; // fundido corto definido en CSS
@@ -139,17 +176,4 @@ document.querySelector('.mode-switch').addEventListener('keydown', (e) => {
   if (!step || i < 0) return;
   e.preventDefault();
   keys[(i + step + keys.length) % keys.length].focus();
-});
-
-// Videojuegos: visible pero aún no funcional.
-const toast = document.querySelector('.toast');
-let toastTimer;
-document.querySelectorAll('.mode-switch__btn[aria-disabled="true"]').forEach((btn) => {
-  btn.addEventListener('click', () => {
-    const name = btn.textContent.trim();
-    toast.textContent = `El nodo ${name} llega pronto.`;
-    toast.classList.add('is-visible');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => toast.classList.remove('is-visible'), 2600);
-  });
 });
