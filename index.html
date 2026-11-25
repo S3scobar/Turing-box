@@ -16,8 +16,9 @@
   <link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/styles.css">
   <script>
-    // Un enlace directo a #horizons… abre ese nodo antes del primer pintado.
-    if (location.hash.startsWith('#horizons')) document.documentElement.dataset.mode = 'horizons';
+    // Un enlace directo a un nodo (#horizons…, #ia…) lo abre antes del primer pintado.
+    var node = location.hash.match(/^#(horizons|ia)(-|$)/);
+    if (node) document.documentElement.dataset.mode = node[1];
     // La intro se muestra una vez por sesión, nunca con movimiento reducido ni al entrar por un enlace directo.
     try {
       if (!location.hash && !sessionStorage.getItem('tb-intro') && matchMedia('(prefers-reduced-motion: no-preference)').matches) {
@@ -42,8 +43,10 @@
       <img class="brand__mark" src="assets/brand/favicon.svg" alt="" width="36" height="36">
       <img class="brand__hz-full" src="assets/brand/horizons/turing-box-horizons-horizontal-sobre-oscuro.svg" alt="" width="162" height="44">
       <img class="brand__hz-mark" src="assets/brand/horizons/favicon.svg" alt="" width="36" height="36">
+      <img class="brand__ia-full" src="assets/brand/ia/turing-box-ia-horizontal-sobre-oscuro.svg" alt="" width="166" height="44">
+      <img class="brand__ia-mark" src="assets/brand/ia/favicon.svg" alt="" width="36" height="36">
     </a>
-    <div class="mode-switch" role="radiogroup" aria-label="Nodo de la web"><span class="mode-switch__label" aria-hidden="true">Nodos</span><button type="button" class="mode-switch__btn" role="radio" aria-checked="false" data-mode="horizons"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/><g stroke="var(--accent, currentColor)"><path d="M14 5l-4 14"/></g></svg><span>Horizons</span></button><button type="button" class="mode-switch__btn" role="radio" aria-checked="false" aria-disabled="true" data-mode="ia"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="7" r="2"/><circle cx="5" cy="17" r="2"/><circle cx="19" cy="12" r="2"/><path d="M7 7.5l10 4M7 16.5l10-4"/><g stroke="var(--accent, currentColor)"><circle cx="12" cy="4" r="1.6"/><path d="M6.5 8.5l4.4-3.4M13.2 5.3l4.6 5"/></g></svg><span>IA</span></button><button type="button" class="mode-switch__btn" role="radio" aria-checked="false" aria-disabled="true" data-mode="videojuegos"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h12a4 4 0 0 1 4 4v1a4 4 0 0 1-7 2.6l-.8-.9H9.8l-.8.9A4 4 0 0 1 2 13v-1a4 4 0 0 1 4-4z"/><g stroke="var(--accent, currentColor)"><path d="M7 11v3M5.5 12.5h3"/><circle cx="16.5" cy="11.5" r=".9"/><circle cx="18" cy="13.8" r=".9"/></g></svg><span>Videojuegos</span></button></div>
+    <div class="mode-switch" role="radiogroup" aria-label="Nodo de la web"><span class="mode-switch__label" aria-hidden="true">Nodos</span><button type="button" class="mode-switch__btn" role="radio" aria-checked="false" data-mode="horizons"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/><g stroke="var(--accent, currentColor)"><path d="M14 5l-4 14"/></g></svg><span>Horizons</span></button><button type="button" class="mode-switch__btn" role="radio" aria-checked="false" data-mode="ia"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="7" r="2"/><circle cx="5" cy="17" r="2"/><circle cx="19" cy="12" r="2"/><path d="M7 7.5l10 4M7 16.5l10-4"/><g stroke="var(--accent, currentColor)"><circle cx="12" cy="4" r="1.6"/><path d="M6.5 8.5l4.4-3.4M13.2 5.3l4.6 5"/></g></svg><span>IA</span></button><button type="button" class="mode-switch__btn" role="radio" aria-checked="false" aria-disabled="true" data-mode="videojuegos"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h12a4 4 0 0 1 4 4v1a4 4 0 0 1-7 2.6l-.8-.9H9.8l-.8.9A4 4 0 0 1 2 13v-1a4 4 0 0 1 4-4z"/><g stroke="var(--accent, currentColor)"><path d="M7 11v3M5.5 12.5h3"/><circle cx="16.5" cy="11.5" r=".9"/><circle cx="18" cy="13.8" r=".9"/></g></svg><span>Videojuegos</span></button></div>
     <a class="header-ig" href="https://www.instagram.com/turingbox_med/" target="_blank" rel="noopener"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r=".6" fill="currentColor"/></svg><span>Instagram</span></a>
   </header>
   <p class="toast" role="status" aria-live="polite"></p>
@@ -228,6 +231,111 @@
       <p class="hz-footer__claim">Construimos el horizonte.</p>
       <a class="hz-btn hz-btn--ghost" href="#inicio">Volver a Turing Box</a>
       <p class="hz-footer__small">Facultad de Minas · Universidad Nacional de Colombia · Sede Medellín</p>
+    </footer>
+   </div>
+<div class="view view--ia" id="ia" tabindex="-1" aria-labelledby="ia-title">
+    <section class="hz-hero ia-hero">
+      <div class="hz-hero__copy">
+        <p class="hz-kicker">Turing Box IA · Modo de inteligencia artificial</p>
+        <h1 class="hz-hero__title ia-title" id="ia-title"><span class="tok" style="--i:0">Enseñamos</span> <span class="tok" style="--i:1">a</span> <span class="tok" style="--i:2">las</span> <span class="tok" style="--i:3">máquinas</span> <span class="tok" style="--i:4">a</span> <span class="tok" style="--i:5">pensar.</span></h1>
+        <p class="hz-hero__lead">Modelos, datos y experimentación. Aprendes a entrenar, medir y explicar modelos, desde tu primer dataset.</p>
+        <div class="hz-hero__actions">
+          <a class="hz-btn hz-btn--accent" href="#ia-aplicar">Aplicar al modo</a>
+          <a class="hz-btn hz-btn--ghost" href="#ia-aprende">Qué vas a aprender</a>
+        </div>
+        <p class="hz-term" aria-hidden="true"><span>$</span> python train.py --epochs 20</p>
+      </div>
+      <img class="hz-hero__sym" src="assets/brand/ia-simbolo.svg" alt="" width="240" height="302" decoding="async">
+      <div class="hz-horizon ia-signal" aria-hidden="true"></div>
+    </section>
+
+    <section class="hz-section" id="ia-aprende" aria-labelledby="ia-learn-title">
+      <p class="hz-kicker">Qué vas a aprender</p>
+      <h2 class="hz-title" id="ia-learn-title">Entender antes de automatizar.</h2>
+      <p class="hz-lead">No necesitas saber de IA para empezar. Vamos de los datos a los agentes, y volvemos sobre los conceptos en cada reto.</p>
+      <ul class="hz-grid"><li class="hz-card"><span class="hz-card__icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><g stroke="var(--accent, currentColor)"><path d="M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3"/></g></svg></span><h3>Datos</h3><p>Recolectar, limpiar y visualizar. Un buen dataset vale más que un modelo enorme.</p></li><li class="hz-card"><span class="hz-card__icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="12" cy="12" r="2"/><path d="M6.8 7l3.4 4M6.8 17l3.4-4M14 12h3"/><g stroke="var(--accent, currentColor)"><circle cx="19" cy="12" r="2"/></g></svg></span><h3>Machine learning</h3><p>De la regresión a las redes neuronales: entrenar, ajustar y entender qué aprendió el modelo.</p></li><li class="hz-card"><span class="hz-card__icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/><g stroke="var(--accent, currentColor)"><path d="M8 9l2 1.5L8 12M12 12h3"/></g></svg></span><h3>LLMs y agentes</h3><p>Prompts, RAG y agentes que usan herramientas. Con Kiro, desarrollo guiado por especificaciones.</p></li><li class="hz-card"><span class="hz-card__icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16h16"/><g stroke="var(--accent, currentColor)"><path d="M7 15l4-4 3 3 5-6"/></g></svg></span><h3>Evaluación</h3><p>Métricas honestas, validación y matrices de confusión. Si no se mide, no funciona.</p></li><li class="hz-card"><span class="hz-card__icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 3v18"/><g stroke="var(--accent, currentColor)"><path d="M12 8h4M12 12h4"/></g></svg></span><h3>Experimentación</h3><p>Notebooks ordenados, experimentos reproducibles y versiones de datos y modelos.</p></li><li class="hz-card"><span class="hz-card__icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16M8 20h8M5 8h14M5 8l-2.5 6a2.5 2.5 0 0 0 5 0z"/><g stroke="var(--accent, currentColor)"><path d="M19 8l-2.5 6a2.5 2.5 0 0 0 5 0z"/></g></svg></span><h3>IA responsable</h3><p>Sesgos, privacidad y fichas de modelo: decimos qué hace, con qué datos y dónde falla.</p></li></ul>
+    </section>
+
+    <section class="hz-section" id="ia-proceso" aria-labelledby="ia-flow-title">
+      <p class="hz-kicker">Del dataset al modelo</p>
+      <h2 class="hz-title" id="ia-flow-title">Así se entrena un modelo en el modo IA.</h2>
+      <p class="hz-lead">Cada reto empieza con una pregunta y termina con una ficha de modelo que cualquiera puede leer.</p>
+      <ol class="hz-flow"><li><span class="hz-flow__n">01</span>Pregunta</li><li><span class="hz-flow__n">02</span>Datos</li><li><span class="hz-flow__n">03</span>Exploración</li><li><span class="hz-flow__n">04</span>Entrenamiento</li><li><span class="hz-flow__n">05</span>Evaluación</li><li><span class="hz-flow__n">06</span>Despliegue</li><li><span class="hz-flow__n">07</span>Ficha de modelo</li></ol>
+      <figure class="ia-curve">
+        <svg viewBox="0 0 520 270" role="img" aria-labelledby="ia-curve-cap">
+          <g class="ia-curve__grid"><line x1="40" x2="500" y1="230" y2="230"/><line x1="40" x2="500" y1="135" y2="135"/><line x1="40" x2="500" y1="40" y2="40"/></g>
+          <g class="ia-curve__axis"><text x="30" y="234" text-anchor="end">0,0</text><text x="30" y="139" text-anchor="end">1,0</text><text x="30" y="44" text-anchor="end">2,0</text><text x="270" y="262" text-anchor="middle">época</text></g>
+          <polyline class="ia-curve__line ia-curve__line--val" pathLength="1" points="40,21.0 90,82.8 140,117.9 190,138.8 240,150.2 290,154.9 340,156.8 390,156.8 440,155.9 490,154.0"/>
+          <polyline class="ia-curve__line" pathLength="1" points="40,30.5 90,97.0 140,135.0 190,155.9 240,171.1 290,180.6 340,186.3 390,190.1 440,192.0 490,193.9"/>
+          <text class="ia-curve__label ia-curve__label--val" x="490" y="144" text-anchor="end">validación</text>
+          <text class="ia-curve__label" x="490" y="216" text-anchor="end">entrenamiento</text>
+        </svg>
+        <figcaption id="ia-curve-cap">Curva de ejemplo: la pérdida baja en entrenamiento, pero en validación deja de mejorar desde la época 7. Ahí aprendes qué es el sobreajuste.</figcaption>
+      </figure>
+    </section>
+
+    <section class="hz-section hz-team" id="ia-equipo" aria-labelledby="ia-team-title">
+      <p class="hz-kicker">Equipos de experimento</p>
+      <h2 class="hz-title" id="ia-team-title">Cada reto, un equipo con roles reales.</h2>
+      <p class="hz-lead">Los roles rotan entre retos para que pases por todos, desde los datos hasta la ficha de modelo.</p>
+      <div class="hz-team__grid">
+        <ul class="hz-roles"><li><h3>Datos</h3><p>Consigue, limpia y documenta el dataset.</p></li><li><h3>Modelado</h3><p>Entrena, ajusta y compara modelos.</p></li><li><h3>Evaluación</h3><p>Diseña las métricas y busca dónde falla el modelo.</p></li><li><h3>MLOps</h3><p>Versiona, despliega y vigila el modelo en uso.</p></li><li><h3>Ética</h3><p>Revisa sesgos, privacidad y la ficha de modelo.</p></li><li><h3>Comunicación</h3><p>Explica los resultados a quien los va a usar.</p></li></ul>
+        <div class="hz-board ia-modelcard" role="group" aria-label="Ejemplo de ficha de modelo">
+          <div class="hz-board__head"><span>Ficha de modelo · ejemplo</span><span>v1.0.0</span></div>
+          <p class="ia-modelcard__name">Clasificador de residuos</p>
+          <dl><div><dt>Qué hace</dt><dd>Clasifica fotos de residuos en tres tipos.</dd></div><div><dt>Datos</dt><dd>Dataset v2 · fotos tomadas en el campus.</dd></div><div><dt>Métrica</dt><dd>0,91 de precisión en validación.</dd></div><div><dt>Límites</dt><dd>Falla con fotos oscuras o desenfocadas.</dd></div><div><dt>Uso responsable</dt><dd>Apoya la separación; no reemplaza la revisión humana.</dd></div></dl>
+        </div>
+      </div>
+    </section>
+
+    <section class="hz-section" id="ia-herramientas" aria-labelledby="ia-tools-title">
+      <p class="hz-kicker">Herramientas</p>
+      <h2 class="hz-title" id="ia-tools-title">Gratis y al alcance de todos.</h2>
+      <div class="hz-kiro">
+        <span class="hz-kiro__badge">Convenio UNAL</span>
+        <h3>Kiro</h3>
+        <p>Un IDE con agentes de IA basado en especificaciones: antes de generar código, escribe requisitos, diseño y tareas. Lo usamos para construir apps con IA sin perder el control de lo que hace el agente.</p>
+      </div>
+      <div class="hz-tools">
+        <div><h3 class="hz-subtitle">Si estás empezando</h3><ul class="hz-tools__list"><li class="hz-tool"><span class="hz-tool__name">Google Colab</span><span class="hz-tool__use">Notebooks en la nube con GPU</span><span class="hz-tool__tag">Plan gratis</span></li><li class="hz-tool"><span class="hz-tool__name">Python + Jupyter</span><span class="hz-tool__use">El idioma de la IA</span><span class="hz-tool__tag">Código abierto</span></li><li class="hz-tool"><span class="hz-tool__name">scikit-learn</span><span class="hz-tool__use">Machine learning clásico</span><span class="hz-tool__tag">Código abierto</span></li><li class="hz-tool"><span class="hz-tool__name">Kaggle</span><span class="hz-tool__use">Datasets y competencias</span><span class="hz-tool__tag">Gratis</span></li><li class="hz-tool"><span class="hz-tool__name">Hugging Face</span><span class="hz-tool__use">Modelos y datasets abiertos</span><span class="hz-tool__tag">Plan gratis</span></li><li class="hz-tool"><span class="hz-tool__name">VS Code</span><span class="hz-tool__use">Editor de código</span><span class="hz-tool__tag">Gratis</span></li></ul></div>
+        <div><h3 class="hz-subtitle">Si ya sabes</h3><ul class="hz-tools__list"><li class="hz-tool"><span class="hz-tool__name">PyTorch</span><span class="hz-tool__use">Redes neuronales</span><span class="hz-tool__tag">Código abierto</span></li><li class="hz-tool"><span class="hz-tool__name">Ollama</span><span class="hz-tool__use">Modelos de lenguaje en tu equipo</span><span class="hz-tool__tag">Código abierto</span></li><li class="hz-tool"><span class="hz-tool__name">LangChain</span><span class="hz-tool__use">Agentes y RAG</span><span class="hz-tool__tag">Código abierto</span></li><li class="hz-tool"><span class="hz-tool__name">Weights & Biases</span><span class="hz-tool__use">Seguimiento de experimentos</span><span class="hz-tool__tag">Plan gratis</span></li><li class="hz-tool"><span class="hz-tool__name">DVC</span><span class="hz-tool__use">Versionar datos y modelos</span><span class="hz-tool__tag">Código abierto</span></li><li class="hz-tool"><span class="hz-tool__name">Gradio</span><span class="hz-tool__use">Demos de modelos</span><span class="hz-tool__tag">Código abierto</span></li></ul></div>
+      </div>
+    </section>
+
+    <section class="hz-section hz-apply" id="ia-aplicar" aria-labelledby="ia-apply-title">
+      <div class="hz-apply__intro">
+        <p class="hz-kicker">Convocatoria</p>
+        <h2 class="hz-title" id="ia-apply-title">Aplica al modo IA.</h2>
+        <p class="hz-lead">No necesitas saber de IA: necesitas curiosidad y ganas de experimentar en equipo. Las inscripciones abren pronto.</p>
+        <p class="hz-status"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/><g stroke="var(--accent, currentColor)"><path d="M12 15v2"/></g></svg>Inscripciones cerradas por ahora</p>
+      </div>
+      <form class="hz-form" aria-labelledby="ia-apply-title" aria-describedby="ia-form-note" onsubmit="return false">
+        <fieldset disabled>
+          <legend class="visually-hidden">Datos de tu postulación</legend>
+          <div class="hz-field"><label for="ia-name">Nombre completo</label><input id="ia-name" name="nombre" autocomplete="name"></div>
+          <div class="hz-field"><label for="ia-email">Correo institucional</label><input id="ia-email" name="correo" type="email" autocomplete="email" placeholder="usuario@unal.edu.co"></div>
+          <div class="hz-field"><label for="ia-career">Carrera y semestre</label><input id="ia-career" name="carrera" placeholder="Estadística · 5.º"></div>
+          <fieldset class="hz-field hz-choice">
+            <legend>Tu punto de partida</legend>
+            <label><input type="radio" name="nivel" value="empiezo"> Estoy empezando</label>
+            <label><input type="radio" name="nivel" value="ya-se"> Ya entrené modelos</label>
+          </fieldset>
+          <fieldset class="hz-field hz-choice">
+            <legend>Qué te interesa</legend>
+            <label><input type="checkbox" name="interes" value="datos"> Datos</label><label><input type="checkbox" name="interes" value="machine learning"> Machine learning</label><label><input type="checkbox" name="interes" value="llms y agentes"> LLMs y agentes</label><label><input type="checkbox" name="interes" value="visión por computador"> Visión por computador</label><label><input type="checkbox" name="interes" value="ia responsable"> IA responsable</label>
+          </fieldset>
+          <div class="hz-field hz-field--wide"><label for="ia-about">Cuéntanos qué te gustaría que aprendiera una máquina</label><textarea id="ia-about" name="motivacion" rows="3"></textarea></div>
+          <button class="hz-btn hz-btn--accent" type="submit">Enviar mi postulación</button>
+        </fieldset>
+        <p class="hz-form__note" id="ia-form-note">El formulario se activa cuando abra la convocatoria. Te avisamos en Instagram.</p>
+      </form>
+    </section>
+
+    <footer class="hz-footer">
+      <img src="assets/brand/ia/turing-box-ia-horizontal-sobre-oscuro.svg" alt="Turing Box IA" width="226" height="60" loading="lazy">
+      <p class="hz-footer__claim">Enseñamos a las máquinas a pensar.</p>
+      <a class="hz-btn hz-btn--ghost" href="#inicio">Volver a Turing Box</a>
+      <p class="hz-footer__small">Universidad Nacional de Colombia · Sede Medellín</p>
     </footer>
    </div>
   </main>
