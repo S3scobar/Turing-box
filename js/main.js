@@ -1,4 +1,4 @@
-// Turing Box · interacciones mínimas: intro, modo activo del escenario y aviso del interruptor.
+// Turing Box · interacciones mínimas: intro, nodo activo del escenario y aviso del interruptor de nodos.
 const root = document.documentElement;
 
 // Intro: se retira al terminar, al pulsar "Saltar", con un clic o con Escape.
@@ -17,7 +17,7 @@ if (root.classList.contains('intro-on') && intro) {
   addEventListener('keydown', (e) => { if (e.key === 'Escape') skip(); }, { once: true });
 }
 
-// Escenario de modos: el paso que cruza el centro de la pantalla define el modo visible.
+// Escenario de nodos: el paso que cruza el centro de la pantalla define el nodo visible.
 const modes = document.querySelector('.modes');
 if (modes) {
   const io = new IntersectionObserver((entries) => {
@@ -28,13 +28,13 @@ if (modes) {
   modes.querySelectorAll('.step').forEach((step) => io.observe(step));
 }
 
-// Interruptor de modos: visible pero aún no funcional.
+// Interruptor de nodos: visible pero aún no funcional.
 const toast = document.querySelector('.toast');
 let toastTimer;
 document.querySelectorAll('.mode-switch__btn').forEach((btn) => {
   btn.addEventListener('click', () => {
     const name = btn.textContent.trim();
-    toast.textContent = `El modo ${name} llega pronto. Por ahora estás en la vista general.`;
+    toast.textContent = `El nodo ${name} llega pronto. Por ahora estás en la vista general.`;
     toast.classList.add('is-visible');
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => toast.classList.remove('is-visible'), 2600);
