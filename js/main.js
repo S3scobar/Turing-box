@@ -28,36 +28,90 @@ if (modes) {
   modes.querySelectorAll('.step').forEach((step) => io.observe(step));
 }
 
-// Nodo Horizons: la URL (#horizons…) decide la vista, así funcionan atrás, adelante y los enlaces directos.
-const hzBtn = document.querySelector('.mode-switch__btn[data-mode="horizons"]');
+// Nodos: la URL (#horizons…, #ia…) decide la vista, así funcionan atrás, adelante y los enlaces directos.
+const NODES = {
+  horizons: { title: 'Turing Box Horizons · Nodo de software', theme: '#071230' },
+  ia: { title: 'Turing Box IA · Modo de inteligencia artificial', theme: '#120A33' },
+};
 const themeColor = document.querySelector('meta[name="theme-color"]');
 const generalTitle = document.title;
-const isHz = () => location.hash.startsWith('#horizons');
-let origin; // centro del botón o enlace pulsado: de ahí nace el círculo
+const modeOf = (hash) => Object.keys(NODES).find((m) => hash === `#${m}` || hash.startsWith(`#${m}-`)) ?? null;
+let origin; // centro del botón o enlace pulsado: de ahí nacen el círculo y la difusión
 
-const setMode = (hz) => {
-  if (hz) root.dataset.mode = 'horizons'; else delete root.dataset.mode;
-  hzBtn.setAttribute('aria-checked', hz);
-  themeColor.content = hz ? '#071230' : '#16112E';
-  document.title = hz ? 'Turing Box Horizons · Nodo de software' : generalTitle;
+const setMode = (mode) => {
+  if (mode) root.dataset.mode = mode; else delete root.dataset.mode;
+  document.querySelectorAll('.mode-switch__btn').forEach((b) => b.setAttribute('aria-checked', b.dataset.mode === mode));
+  themeColor.content = mode ? NODES[mode].theme : '#16112E';
+  document.title = mode ? NODES[mode].title : generalTitle;
 };
 
+// Efecto IA: la vista nueva se "genera" desde ruido, como un modelo de difusión.
+// El ruido cubre la pantalla, se cambia la vista y los píxeles se resuelven desde el punto pulsado.
+const NOISE = ['#120A33', '#22145C', '#2A1870', '#4E31A3', '#7C4DFF', '#AA8BFF'];
+const diffuse = (update, { x, y }) => new Promise((resolve) => {
+  const S = innerWidth < 600 ? 18 : 24; // píxel del ruido
+  const cols = Math.ceil(innerWidth / S), rows = Math.ceil(innerHeight / S);
+  const canvas = Object.assign(document.createElement('canvas'), { width: cols * S, height: rows * S, className: 'diffusion' });
+  canvas.setAttribute('aria-hidden', 'true');
+  document.body.append(canvas);
+  const ctx = canvas.getContext('2d');
+  const far = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+  const cells = [];
+  for (let i = 0; i < cols * rows; i++) {
+    const cx = (i % cols) * S, cy = Math.floor(i / cols) * S;
+    const r = Math.random();
+    cells.push({
+      cx, cy, on: Math.random(),
+      off: 0.55 * Math.hypot(cx - x, cy - y) / far + 0.45 * Math.random(), // se resuelve desde el clic, con ruido
+      color: r < 0.03 ? '#3FE0C5' : r < 0.05 ? '#FF8FB8' : NOISE[Math.floor(Math.random() * NOISE.length)],
+    });
+  }
+  const IN = 360, OUT = 760, STEPS = 20;
+  const t0 = performance.now();
+  let swapped = false;
+  const frame = (now) => {
+    const t = now - t0;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (t < IN) {
+      const k = t / IN;
+      for (const c of cells) if (c.on < k) { ctx.fillStyle = c.color; ctx.fillRect(c.cx, c.cy, S, S); }
+    } else {
+      if (!swapped) { update(); swapped = true; }
+      const k = Math.min(1, (t - IN) / OUT);
+      for (const c of cells) {
+        const left = (c.off - k) * 5; // los píxeles se encogen antes de desaparecer
+        if (left <= 0) continue;
+        const size = Math.min(1, left) * S;
+        ctx.fillStyle = c.color;
+        ctx.fillRect(c.cx + (S - size) / 2, c.cy + (S - size) / 2, size, size);
+      }
+      ctx.fillStyle = '#3FE0C5';
+      ctx.font = '500 12px "JetBrains Mono", monospace';
+      ctx.fillText(`difusión · paso ${Math.min(STEPS, Math.ceil(k * STEPS))}/${STEPS}`, 16, canvas.height - 16);
+    }
+    if (t < IN + OUT) requestAnimationFrame(frame); else { canvas.remove(); resolve(); }
+  };
+  requestAnimationFrame(frame);
+});
+
 const render = () => {
-  const hz = isHz();
-  if (hz === (root.dataset.mode === 'horizons')) return; // mismo nodo: el navegador hace el scroll al ancla
+  const next = modeOf(location.hash);
+  if (next === (root.dataset.mode ?? null)) return; // mismo nodo: el navegador hace el scroll al ancla
   const update = () => {
-    setMode(hz);
+    setMode(next);
     const target = document.getElementById(location.hash.slice(1));
-    if (target && target.id !== 'horizons' && target.id !== 'inicio') target.scrollIntoView(); else scrollTo(0, 0);
+    if (target && target.id !== next && target.id !== 'inicio') target.scrollIntoView(); else scrollTo(0, 0);
   };
   // Foco al inicio de la vista nueva para que teclado y lector de pantalla no se pierdan.
-  const focus = () => (hz ? document.getElementById('horizons') : document.getElementById('contenido')).focus({ preventScroll: true });
-  if (!document.startViewTransition) { update(); focus(); return; }
+  const focus = () => document.getElementById(next ?? 'contenido').focus({ preventScroll: true });
   const { x, y } = origin ?? { x: innerWidth / 2, y: 0 };
   origin = null;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (next === 'ia' && !reduce) { diffuse(update, { x, y }).then(focus); return; }
+  if (!document.startViewTransition) { update(); focus(); return; }
   const vt = document.startViewTransition(update);
   vt.finished.finally(focus);
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return; // fundido corto definido en CSS
+  if (reduce) return; // fundido corto definido en CSS
   const r = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
   vt.ready.then(() => root.animate(
     { clipPath: [`circle(0 at ${x}px ${y}px)`, `circle(${r}px at ${x}px ${y}px)`] },
@@ -72,8 +126,10 @@ addEventListener('click', (e) => {
   origin = { x: r.left + r.width / 2, y: r.top + r.height / 2 };
 }, true);
 addEventListener('hashchange', render);
-hzBtn.addEventListener('click', () => { if (!isHz()) location.hash = 'horizons'; });
-setMode(isHz());
+document.querySelectorAll('.mode-switch__btn').forEach((btn) => {
+  if (NODES[btn.dataset.mode]) btn.addEventListener('click', () => { location.hash = btn.dataset.mode; });
+});
+setMode(modeOf(location.hash));
 
 // Teclado del interruptor (role="radiogroup"): flechas izquierda y derecha mueven el foco.
 const keys = [...document.querySelectorAll('.mode-switch__btn')];
@@ -85,10 +141,10 @@ document.querySelector('.mode-switch').addEventListener('keydown', (e) => {
   keys[(i + step + keys.length) % keys.length].focus();
 });
 
-// IA y Videojuegos: visibles pero aún no funcionales.
+// Videojuegos: visible pero aún no funcional.
 const toast = document.querySelector('.toast');
 let toastTimer;
-document.querySelectorAll('.mode-switch__btn:not([data-mode="horizons"])').forEach((btn) => {
+document.querySelectorAll('.mode-switch__btn[aria-disabled="true"]').forEach((btn) => {
   btn.addEventListener('click', () => {
     const name = btn.textContent.trim();
     toast.textContent = `El nodo ${name} llega pronto.`;
