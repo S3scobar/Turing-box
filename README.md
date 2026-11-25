@@ -7,6 +7,7 @@ Página de presentación de **Turing Box**, grupo estudiantil de tecnología de 
 - Intro animada: el logo de Turing Box se dibuja y se divide en los símbolos de los tres nodos. Se muestra una vez por sesión y se puede saltar.
 - Landing guiada por el scroll: el escenario de nodos queda fijo mientras cambian Horizons, IA y Videojuegos.
 - Interruptor de nodos en la cabecera. Aún no cambia la página: muestra un aviso de «próximamente».
+- Sección del equipo con fotos (galería en escritorio, carrusel deslizable en móvil) y enlaces a Instagram (@turingbox_med).
 - Diseño adaptable a móvil y escritorio. Respeta `prefers-reduced-motion`.
 
 ## Stack
@@ -31,6 +32,7 @@ index.html        Página única
 css/styles.css    Tokens, layout y animaciones
 js/main.js        Intro, nodo activo del escenario y aviso del interruptor
 assets/brand/     Logos y símbolos (manual de identidad v1.1)
+assets/equipo/    Fotos del equipo (WebP)
 assets/fonts/     Sora, Inter y JetBrains Mono (SIL Open Font License)
 ```
 
