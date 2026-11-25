@@ -64,20 +64,27 @@ p { margin: 0; text-wrap: pretty; }
 .brand__full { height: 42px; width: auto; }
 .brand__mark { display: none; width: 36px; height: 36px; border-radius: 9px; }
 
-.mode-switch {
-  display: flex; align-items: center; gap: 2px; padding: 4px; border-radius: 999px;
-  background: #fff; border: 1px solid #E4E1EE; box-shadow: 0 1px 2px rgb(22 17 46 / .05), 0 6px 20px rgb(22 17 46 / .05);
-}
-.mode-switch__label { padding: 0 10px 0 12px; font: 500 .68rem/1 var(--font-mono); letter-spacing: .16em; text-transform: uppercase; color: #8A83A8; }
+/* Interruptor: tres teclas físicas con su luz de nodo */
+.mode-switch { display: flex; align-items: center; gap: 8px; padding-bottom: 3px; }
+.mode-switch__label { padding-right: 4px; font: 500 .68rem/1 var(--font-mono); letter-spacing: .16em; text-transform: uppercase; color: #8A83A8; }
 .mode-switch__btn {
   --node: var(--violet);
-  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  min-height: 40px; padding: 0 15px; border: 0; border-radius: 999px; background: transparent;
+  position: relative; display: inline-flex; align-items: center; gap: 8px;
+  min-height: 40px; padding: 0 16px 0 13px; border: 1px solid #DCD8E8; border-radius: 10px;
+  background: linear-gradient(#FFFFFF, #F6F5FB);
+  box-shadow: 0 3px 0 #D5D1E4, 0 6px 14px rgb(22 17 46 / .06);
   font: 600 .875rem/1 var(--font-text); color: var(--ink); cursor: pointer;
-  transition: background-color .2s, color .2s;
+  translate: 0 -2px;
+  transition: translate .12s ease, box-shadow .12s ease, border-color .2s;
+}
+.mode-switch__btn::after { /* luz del nodo */
+  content: ""; position: absolute; top: 6px; right: 6px; width: 5px; height: 5px; border-radius: 50%;
+  background: color-mix(in srgb, var(--node) 30%, #fff); transition: background-color .2s, box-shadow .2s;
 }
 .mode-switch__btn .icon { width: 18px; height: 18px; color: var(--node); --accent: var(--node); }
-.mode-switch__btn:hover { background: color-mix(in srgb, var(--node) 10%, #fff); color: var(--node); }
+.mode-switch__btn:hover { border-color: color-mix(in srgb, var(--node) 40%, #DCD8E8); }
+.mode-switch__btn:hover::after { background: var(--node); box-shadow: 0 0 0 2px color-mix(in srgb, var(--node) 18%, transparent), 0 0 8px var(--node); }
+.mode-switch__btn:active { translate: 0 1px; box-shadow: 0 0 0 #D5D1E4, 0 2px 6px rgb(22 17 46 / .05); }
 .mode-switch__btn[data-mode="horizons"] { --node: var(--blue); }
 .mode-switch__btn[data-mode="ia"] { --node: var(--violet); }
 .mode-switch__btn[data-mode="videojuegos"] { --node: #C92E7E; }
@@ -89,17 +96,6 @@ p { margin: 0; text-wrap: pretty; }
 }
 .header-ig:hover { background: var(--mist); }
 .header-ig .icon { width: 20px; height: 20px; }
-
-.btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 22px;
-  border-radius: 999px; font: 600 1rem/1 var(--font-text); text-decoration: none; white-space: nowrap;
-  transition: background-color .2s, color .2s, border-color .2s;
-}
-.btn .icon { width: 20px; height: 20px; }
-.btn--ghost { color: var(--ink); border: 1.5px solid var(--line); }
-.btn--ghost:hover { border-color: var(--ink); }
-.btn--light { margin-top: 32px; background: #fff; color: var(--ink); }
-.btn--light:hover { background: #ECEAF4; }
 
 .toast {
   position: fixed; left: 50%; top: calc(var(--header-h) + 12px); z-index: 45; translate: -50% 0;
@@ -297,9 +293,10 @@ p { margin: 0; text-wrap: pretty; }
   .site-header { padding: 0 12px; gap: 6px; grid-template-columns: auto 1fr auto; }
   .brand__full { display: none; }
   .brand__mark { display: block; }
-  .mode-switch { justify-self: center; padding: 3px; }
+  .mode-switch { justify-self: center; gap: 5px; }
   .mode-switch__label { display: none; }
-  .mode-switch__btn { padding: 0 9px; font-size: .78rem; gap: 5px; min-height: 40px; }
+  .mode-switch__btn { padding: 0 10px 0 8px; font-size: .76rem; gap: 5px; min-height: 38px; border-radius: 9px; }
+  .mode-switch__btn::after { top: 4px; right: 4px; width: 4px; height: 4px; }
   .mode-switch__btn .icon { width: 15px; height: 15px; }
   .header-ig { padding: 0; width: 44px; justify-content: center; }
   .header-ig span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
