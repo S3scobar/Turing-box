@@ -457,10 +457,6 @@ p { margin: 0; text-wrap: pretty; }
 .hz-flow__n { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 10px; background: var(--medianoche); border: 1px solid var(--hz-border); font: 500 .78rem/1 var(--font-mono); color: var(--foco); }
 
 /* Herramientas */
-.hz-kiro { margin-top: 40px; padding: clamp(24px, 4vw, 40px); border-radius: 16px; background: linear-gradient(135deg, var(--azul-600), color-mix(in srgb, var(--azul-600) 55%, var(--noche))); max-width: 760px; }
-.hz-kiro h3 { font-size: clamp(1.8rem, 3vw, 2.4rem); margin: 14px 0 10px; }
-.hz-kiro p { color: #EEF0FF; max-width: 60ch; }
-.hz-kiro__badge { display: inline-block; padding: 6px 12px; border-radius: 999px; background: var(--noche); font: 500 .72rem/1 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--amanecer); }
 .hz-tools { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
 .hz-tools__list { list-style: none; padding: 0; margin: 0; display: grid; }
 .hz-tool { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--hz-border); }
@@ -509,8 +505,7 @@ p { margin: 0; text-wrap: pretty; }
   @keyframes hz-line { from { scale: 0 1; opacity: 0; } }
 
   @supports ((animation-timeline: view()) and (animation-range: entry)) {
-    .hz-card, .hz-roles li, .hz-board, .hz-flow li, .hz-kiro, .hz-tool, .hz-form {
-      animation: rise linear both; animation-timeline: view(); animation-range: entry 0% entry 60%;
+    .hz-card, .hz-roles li, .hz-board, .hz-flow li,       animation: rise linear both; animation-timeline: view(); animation-range: entry 0% entry 60%;
     }
   }
   @supports ((animation-timeline: scroll()) and (animation-range: 0% 100%)) {
@@ -683,9 +678,7 @@ p { margin: 0; text-wrap: pretty; }
 .hz-footer__small, .hz-tool__tag { font-family: var(--font-text); letter-spacing: 0; }
 
 /* Esquinas más firmes; nada de píldoras */
-.hz-board, .hz-kiro, .hz-form { border-radius: 6px; }
-.hz-task { border-radius: 4px; }
-.hz-kiro__badge, .hz-task__tag { border-radius: 3px; }
+.hz-board, .hz-task { border-radius: 4px; }
 .hz-btn { border-radius: 6px; transition: background-color .2s, border-color .2s, translate .15s var(--ease), scale .16s var(--ease-out); }
 .hz-btn:active { scale: .97; }
 
@@ -758,3 +751,16 @@ p { margin: 0; text-wrap: pretty; }
     margin: 0 calc(-1 * max(var(--pad), calc((100vw - 1200px) / 2)));
   }
 }
+
+/* Convenios y formación: una tarjeta por aliado, con su logo y su color */
+.hz-deals { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 16px; margin-top: 40px; }
+.hz-deal {
+  display: flex; flex-direction: column; align-items: flex-start; padding: 24px; border-radius: 8px;
+  background: color-mix(in srgb, var(--c) 16%, var(--noche)); border: 1px solid color-mix(in srgb, var(--c) 45%, transparent);
+  transition: translate .25s var(--ease-out), border-color .25s;
+}
+.hz-deal__logo { width: 56px; height: 56px; padding: 11px; border-radius: 12px; background: #fff; box-shadow: 0 4px 0 color-mix(in srgb, var(--c) 55%, #000); }
+.hz-deal__badge { margin-top: 22px; font: 600 .85rem/1.2 var(--font-text); color: color-mix(in srgb, var(--c) 45%, #fff); }
+.hz-deal h3 { margin: 6px 0 10px; font-size: clamp(1.7rem, 2.6vw, 2.2rem); }
+.hz-deal p { color: #E9EAF5; max-width: 46ch; }
+@media (hover: hover) and (pointer: fine) { .hz-deal:hover { translate: 0 -2px; border-color: var(--c); } }
