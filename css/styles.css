@@ -764,3 +764,88 @@ p { margin: 0; text-wrap: pretty; }
 .hz-deal h3 { margin: 6px 0 10px; font-size: clamp(1.7rem, 2.6vw, 2.2rem); }
 .hz-deal p { color: #E9EAF5; max-width: 46ch; }
 @media (hover: hover) and (pointer: fine) { .hz-deal:hover { translate: 0 -2px; border-color: var(--c); } }
+
+/* ---------- Procesos: cada nodo cuenta su ciclo con su propio lenguaje ---------- */
+@keyframes clip-in { from { clip-path: inset(0 100% 0 0); } }
+
+/* Horizons: el ciclo de una idea como grafo de git (main, una rama y el merge) */
+.hz-git { position: relative; margin-top: clamp(40px, 6vw, 72px); }
+.hz-git__lines { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.hz-git__lines path { fill: none; stroke-width: 3; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.hz-git__main { stroke: var(--foco); }
+.hz-git__branch { stroke: var(--amanecer); }
+.hz-git__steps { position: relative; list-style: none; margin: 0 0 24px; padding: 0; display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); grid-template-rows: 150px 150px; }
+.hz-git__steps li { position: relative; grid-column: var(--c); grid-row: var(--r); text-align: center; }
+.hz-git__steps li::before {
+  content: ""; position: absolute; left: 50%; top: 50%; width: 20px; height: 20px; translate: -50% -50%; border-radius: 50%;
+  background: var(--noche); border: 3px solid var(--foco); transition: scale .25s var(--ease-out), background-color .2s;
+}
+.hz-git__steps li.is-branch::before { border-color: var(--amanecer); }
+.hz-git__steps b { position: absolute; left: 0; right: 0; top: calc(50% + 20px); font: 500 .75rem/1 var(--font-mono); color: var(--hz-muted); }
+.hz-git__steps span { position: absolute; left: 2px; right: 2px; top: calc(50% + 38px); font: 600 .95rem/1.25 var(--font-display); }
+.hz-git__tag { position: absolute; padding: 5px 8px; border-radius: 4px; font: 500 .78rem/1 var(--font-mono); }
+.hz-git__tag--main { right: 0; top: calc(75% - 42px); background: color-mix(in srgb, var(--foco) 16%, transparent); color: var(--foco); }
+.hz-git__tag--branch { left: 50%; translate: -50% 0; top: calc(25% - 46px); background: color-mix(in srgb, var(--amanecer) 16%, transparent); color: var(--amanecer); }
+@media (hover: hover) and (pointer: fine) { .hz-git__steps li:hover::before { scale: 1.35; background: var(--foco); } .hz-git__steps li.is-branch:hover::before { background: var(--amanecer); } }
+@media (max-width: 999px) {
+  .hz-git__lines, .hz-git__tag { display: none; }
+  .hz-git__steps { display: block; }
+  .hz-git__steps::before { content: ""; position: absolute; left: 9px; top: 8px; bottom: 8px; width: 2px; background: var(--foco); }
+  .hz-git__steps li { display: flex; align-items: baseline; gap: 12px; padding: 0 0 22px 44px; text-align: left; }
+  .hz-git__steps li::before { left: 10px; top: 3px; translate: -50% 0; }
+  .hz-git__steps li.is-branch { padding-left: 80px; }
+  .hz-git__steps li.is-branch::before { left: 46px; }
+  .hz-git__steps li.is-branch::after { content: ""; position: absolute; left: 45px; top: 0; bottom: 0; width: 2px; background: var(--amanecer); z-index: -1; }
+  .hz-git__steps b, .hz-git__steps span { position: static; }
+  .hz-git__steps b { flex: none; min-width: 22px; line-height: 1.6; }
+  .hz-git__steps span { font-size: 1rem; line-height: 1.4; }
+}
+
+/* IA: pasos como capas de una red, con la curva fija al lado */
+.ia-run { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(32px, 5vw, 80px); align-items: start; margin-top: clamp(40px, 6vw, 72px); }
+.ia-steps { position: relative; list-style: none; margin: 0; padding: 0; }
+.ia-steps::before { content: ""; position: absolute; left: 10px; top: 14px; bottom: 14px; width: 2px; background: linear-gradient(var(--horizonte), var(--amanecer)); }
+.ia-steps li { position: relative; padding: 0 0 30px 48px; }
+.ia-steps li:last-child { padding-bottom: 0; }
+.ia-steps__node { position: absolute; left: 0; top: 1px; width: 22px; height: 22px; border-radius: 50%; background: var(--noche); border: 2px solid var(--amanecer); box-shadow: 0 0 0 5px var(--noche); }
+.ia-steps__node::after { content: ""; position: absolute; inset: 4px; border-radius: 50%; background: var(--amanecer); scale: .45; transition: scale .25s var(--ease-out); }
+.ia-steps h3 { display: flex; align-items: baseline; gap: 12px; font: 700 1.3rem/1.2 var(--font-display); letter-spacing: -.02em; }
+.ia-steps h3 span { font: 500 .78rem/1 var(--font-mono); color: var(--amanecer); }
+.ia-steps p { margin: 6px 0 0; max-width: 40ch; color: var(--hz-muted); }
+.ia-run .ia-curve { position: sticky; top: calc(var(--header-h) + 24px); margin: 0; max-width: none; border-radius: 8px; }
+@media (hover: hover) and (pointer: fine) { .ia-steps li:hover .ia-steps__node::after { scale: 1; } }
+@media (max-width: 900px) { .ia-run { grid-template-columns: minmax(0, 1fr); } .ia-run .ia-curve { position: static; } }
+
+/* Videojuegos: mapa de niveles en escalera hacia el jefe final */
+.vj-world { position: relative; margin-top: clamp(40px, 6vw, 72px); }
+.vj-world__path { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.vj-world__path path { fill: none; stroke: var(--horizonte); stroke-width: 3; stroke-dasharray: 7 7; vector-effect: non-scaling-stroke; shape-rendering: crispEdges; }
+.vj-levels { position: relative; list-style: none; margin: 0; padding: 0; height: 420px; }
+.vj-levels li { position: absolute; left: calc((var(--i) + .5) / 7 * 100%); top: calc(360px - var(--i) * 40px); width: 0; height: 0; }
+.vj-lv {
+  position: absolute; left: 0; top: 0; display: grid; place-items: center; width: 46px; height: 46px; margin: -23px 0 0 -23px;
+  background: var(--amanecer); color: var(--noche); font: 700 .85rem/1 var(--font-mono); box-shadow: 4px 4px 0 var(--horizonte);
+  transition: translate .15s var(--ease-out), box-shadow .15s var(--ease-out);
+}
+.vj-levels li > div { position: absolute; left: 0; bottom: 34px; translate: -50% 0; width: clamp(96px, 9.5vw, 138px); text-align: center; }
+.vj-levels h3 { font: 700 1.05rem/1.2 var(--font-display); }
+.vj-levels p { margin: 4px 0 0; color: var(--hz-muted); font-size: .85rem; line-height: 1.4; }
+.vj-levels .is-boss .vj-lv { width: 66px; height: 66px; margin: -33px 0 0 -33px; background: var(--horizonte); color: #fff; font-size: .95rem; box-shadow: 5px 5px 0 var(--amanecer); }
+.vj-levels .is-boss > div { bottom: 46px; }
+.vj-levels .is-boss h3 { color: var(--amanecer); }
+@media (hover: hover) and (pointer: fine) { .vj-levels li:hover .vj-lv { translate: 2px 2px; box-shadow: 2px 2px 0 var(--horizonte); } .vj-levels .is-boss:hover .vj-lv { box-shadow: 3px 3px 0 var(--amanecer); } }
+.vj-jam { border-radius: 0; border: 2px solid var(--amanecer); box-shadow: 6px 6px 0 var(--horizonte); background: var(--medianoche); }
+@media (max-width: 899px) {
+  .vj-world__path { display: none; }
+  .vj-levels { height: auto; }
+  .vj-levels::before { content: ""; position: absolute; left: 22px; top: 20px; bottom: 20px; border-left: 3px dashed var(--horizonte); }
+  .vj-levels li { position: relative; left: auto; top: auto; width: auto; height: auto; display: grid; grid-template-columns: 46px minmax(0, 1fr); gap: 16px; padding-bottom: 26px; }
+  .vj-lv, .vj-levels .is-boss .vj-lv { position: relative; margin: 0; width: 46px; height: 46px; font-size: .8rem; }
+  .vj-levels li > div { position: static; translate: none; width: auto; text-align: left; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports ((animation-timeline: view()) and (animation-range: entry)) {
+    .hz-git__lines, .vj-world__path { animation: clip-in linear both; animation-timeline: view(); animation-range: entry 10% cover 40%; }
+  }
+}

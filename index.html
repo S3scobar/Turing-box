@@ -177,7 +177,11 @@
       <p class="hz-kicker">Esquemas conceptuales</p>
       <h2 class="hz-title" id="hz-map-title">Primero lo entendemos, después lo programamos.</h2>
       <p class="hz-lead">Dibujamos mapas conceptuales, flujos y arquitecturas antes de escribir código. Este es el ciclo que recorre cada idea.</p>
-      <ol class="hz-flow"><li><span class="hz-flow__n">01</span>Idea</li><li><span class="hz-flow__n">02</span>Historia de usuario</li><li><span class="hz-flow__n">03</span>Backlog</li><li><span class="hz-flow__n">04</span>Sprint</li><li><span class="hz-flow__n">05</span>Rama</li><li><span class="hz-flow__n">06</span>Pull request</li><li><span class="hz-flow__n">07</span>Pruebas</li><li><span class="hz-flow__n">08</span>Despliegue</li><li><span class="hz-flow__n">09</span>Feedback</li></ol>
+      <div class="hz-git">
+        <svg class="hz-git__lines" viewBox="0 0 900 300" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path class="hz-git__main" pathLength="1" d="M50 225H850"/><path class="hz-git__branch" pathLength="1" d="M350 225C400 225 400 75 450 75H650C700 75 700 225 750 225"/></svg>
+        <ol class="hz-git__steps"><li style="--c:1;--r:2"><b>01</b><span>Idea</span></li><li style="--c:2;--r:2"><b>02</b><span>Historia de usuario</span></li><li style="--c:3;--r:2"><b>03</b><span>Backlog</span></li><li style="--c:4;--r:2"><b>04</b><span>Sprint</span></li><li class="is-branch" style="--c:5;--r:1"><b>05</b><span>Rama</span></li><li class="is-branch" style="--c:6;--r:1"><b>06</b><span>Pull request</span></li><li class="is-branch" style="--c:7;--r:1"><b>07</b><span>Pruebas</span></li><li style="--c:8;--r:2"><b>08</b><span>Despliegue</span></li><li style="--c:9;--r:2"><b>09</b><span>Feedback</span></li></ol>
+        <span class="hz-git__tag hz-git__tag--main" aria-hidden="true">main</span><span class="hz-git__tag hz-git__tag--branch" aria-hidden="true">feat/mi-aporte</span>
+      </div>
     </section>
 
     <section class="hz-section" id="horizons-herramientas" aria-labelledby="hz-tools-title">
@@ -249,8 +253,9 @@
       <p class="hz-kicker">Del dataset al modelo</p>
       <h2 class="hz-title" id="ia-flow-title">Así se entrena un modelo en el modo IA.</h2>
       <p class="hz-lead">Cada reto empieza con una pregunta y termina con una ficha de modelo que cualquiera puede leer.</p>
-      <ol class="hz-flow"><li><span class="hz-flow__n">01</span>Pregunta</li><li><span class="hz-flow__n">02</span>Datos</li><li><span class="hz-flow__n">03</span>Exploración</li><li><span class="hz-flow__n">04</span>Entrenamiento</li><li><span class="hz-flow__n">05</span>Evaluación</li><li><span class="hz-flow__n">06</span>Despliegue</li><li><span class="hz-flow__n">07</span>Ficha de modelo</li></ol>
-      <figure class="ia-curve">
+      <div class="ia-run">
+        <ol class="ia-steps"><li><i class="ia-steps__node" aria-hidden="true"></i><div><h3><span>01</span>Pregunta</h3><p>Qué quieres predecir y para quién sirve.</p></div></li><li><i class="ia-steps__node" aria-hidden="true"></i><div><h3><span>02</span>Datos</h3><p>Reunirlos, limpiarlos y etiquetarlos con criterio.</p></div></li><li><i class="ia-steps__node" aria-hidden="true"></i><div><h3><span>03</span>Exploración</h3><p>Gráficas, sesgos y valores raros antes de entrenar.</p></div></li><li><i class="ia-steps__node" aria-hidden="true"></i><div><h3><span>04</span>Entrenamiento</h3><p>Ajustar el modelo mirando cómo baja la pérdida.</p></div></li><li><i class="ia-steps__node" aria-hidden="true"></i><div><h3><span>05</span>Evaluación</h3><p>Probarlo con datos que nunca vio.</p></div></li><li><i class="ia-steps__node" aria-hidden="true"></i><div><h3><span>06</span>Despliegue</h3><p>Ponerlo donde alguien de verdad lo use.</p></div></li><li><i class="ia-steps__node" aria-hidden="true"></i><div><h3><span>07</span>Ficha de modelo</h3><p>Contar para qué sirve y en qué falla.</p></div></li></ol>
+        <figure class="ia-curve">
         <svg viewBox="0 0 520 270" role="img" aria-labelledby="ia-curve-cap">
           <g class="ia-curve__grid"><line x1="40" x2="500" y1="230" y2="230"/><line x1="40" x2="500" y1="135" y2="135"/><line x1="40" x2="500" y1="40" y2="40"/></g>
           <g class="ia-curve__axis"><text x="30" y="234" text-anchor="end">0,0</text><text x="30" y="139" text-anchor="end">1,0</text><text x="30" y="44" text-anchor="end">2,0</text><text x="270" y="262" text-anchor="middle">época</text></g>
@@ -261,6 +266,7 @@
         </svg>
         <figcaption id="ia-curve-cap">Curva de ejemplo: la pérdida baja en entrenamiento, pero en validación deja de mejorar desde la época 7. Ahí aprendes qué es el sobreajuste.</figcaption>
       </figure>
+      </div>
     </section>
 
     <section class="hz-section hz-team" id="ia-equipo" aria-labelledby="ia-team-title">
@@ -347,7 +353,10 @@
       <p class="hz-kicker">Del prototipo al lanzamiento</p>
       <h2 class="hz-title" id="vj-flow-title">Primero divertido, después bonito.</h2>
       <p class="hz-lead">Probamos la diversión con cubos grises antes de dibujar un solo sprite. Así no se pierde un semestre en un juego que no engancha.</p>
-      <ol class="hz-flow"><li><span class="hz-flow__n">01</span>Idea</li><li><span class="hz-flow__n">02</span>Prototipo gris</li><li><span class="hz-flow__n">03</span>Núcleo jugable</li><li><span class="hz-flow__n">04</span>Arte y sonido</li><li><span class="hz-flow__n">05</span>Playtesting</li><li><span class="hz-flow__n">06</span>Pulido</li><li><span class="hz-flow__n">07</span>Lanzamiento</li></ol>
+      <div class="vj-world">
+        <svg class="vj-world__path" viewBox="0 0 700 420" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path pathLength="1" d="M50 360H150V320H250V280H350V240H450V200H550V160H650V120"/></svg>
+        <ol class="vj-levels"><li style="--i:0"><span class="vj-lv" aria-hidden="true">1-1</span><div><h3>Idea</h3><p>Una frase: qué hace el jugador y por qué importa.</p></div></li><li style="--i:1"><span class="vj-lv" aria-hidden="true">1-2</span><div><h3>Prototipo gris</h3><p>Cubos y rectángulos. Si así no divierte, con arte tampoco.</p></div></li><li style="--i:2"><span class="vj-lv" aria-hidden="true">1-3</span><div><h3>Núcleo jugable</h3><p>Un nivel completo que se pueda ganar y perder.</p></div></li><li style="--i:3"><span class="vj-lv" aria-hidden="true">1-4</span><div><h3>Arte y sonido</h3><p>Ahora sí: sprites, música y efectos.</p></div></li><li style="--i:4"><span class="vj-lv" aria-hidden="true">1-5</span><div><h3>Playtesting</h3><p>Gente real jugando mientras tú te callas.</p></div></li><li style="--i:5"><span class="vj-lv" aria-hidden="true">1-6</span><div><h3>Pulido</h3><p>Los detalles que hacen que se sienta bien.</p></div></li><li class="is-boss" style="--i:6"><span class="vj-lv" aria-hidden="true">JEFE</span><div><h3>Lanzamiento</h3><p>Publicas en itch.io y pasas al siguiente juego.</p></div></li></ol>
+      </div>
       <div class="vj-jam">
         <p class="vj-jam__clock" aria-hidden="true">48:00:00</p>
         <div><h3>Game jams</h3><p>Un tema, un fin de semana y un juego terminado. Es la forma más rápida de aprender a cerrar un proyecto, y la más divertida.</p></div>
