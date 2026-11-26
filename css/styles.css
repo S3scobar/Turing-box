@@ -849,3 +849,78 @@ p { margin: 0; text-wrap: pretty; }
     .hz-git__lines, .vj-world__path { animation: clip-in linear both; animation-timeline: view(); animation-range: entry 10% cover 40%; }
   }
 }
+
+/* ---------- Equipos: roles y artefacto de cada nodo ---------- */
+.hz-team__grid { gap: clamp(24px, 4vw, 40px); }
+
+/* Horizons: tablero a todo el ancho y roles como fichas con sus iniciales */
+:root[data-mode="horizons"] .hz-team__grid { grid-template-columns: minmax(0, 1fr); }
+:root[data-mode="horizons"] .hz-kanban { order: -1; padding: clamp(16px, 2.4vw, 28px); background: var(--medianoche); border-radius: 6px; }
+.hz-kanban .hz-board__head { align-items: center; padding-bottom: 20px; font-size: .85rem; color: #fff; }
+.hz-burn { display: grid; gap: 6px; justify-items: end; color: var(--foco); }
+.hz-burn i { display: block; width: 160px; height: 4px; background: color-mix(in srgb, #fff 14%, transparent); position: relative; }
+.hz-burn i::after { content: ""; position: absolute; inset: 0; width: calc(var(--v) * 100%); background: var(--amanecer); }
+.hz-kanban .hz-board__cols { gap: 0; }
+.hz-kanban .hz-col { padding: 0 12px; border-left: 1px solid var(--hz-border); }
+.hz-kanban .hz-col:first-child { padding-left: 0; border-left: 0; }
+.hz-kanban .hz-col:last-child { padding-right: 0; }
+.hz-kanban .hz-task { background: color-mix(in srgb, #fff 7%, var(--noche)); border: 0; border-left: 3px solid var(--t, var(--foco)); border-radius: 2px; box-shadow: 0 2px 0 rgb(0 0 0 / .35); }
+.hz-kanban .hz-task__id { color: var(--t, var(--foco)); }
+.hz-kanban .hz-task__tag { padding: 0; background: none; border-radius: 0; color: var(--t, #E1E4FF); font-size: .72rem; }
+.hz-kanban .hz-task__tag::before { content: "#"; opacity: .6; }
+:root[data-mode="horizons"] .hz-roles { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+:root[data-mode="horizons"] .hz-roles li {
+  display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 2px 16px; align-items: center; padding: 18px; border: 1px solid var(--hz-border); border-radius: 6px;
+  transition: border-color .2s, translate .25s var(--ease-out);
+}
+:root[data-mode="horizons"] .hz-roles li::before {
+  content: attr(data-k); grid-row: 1 / span 2; display: grid; place-items: center; width: 48px; height: 48px; border-radius: 6px;
+  background: var(--horizonte); color: #fff; font: 700 .85rem/1 var(--font-display); letter-spacing: .02em;
+}
+@media (hover: hover) and (pointer: fine) { :root[data-mode="horizons"] .hz-roles li:hover { translate: 0 -2px; } }
+
+/* IA: la ficha de modelo como documento impreso y los roles como nodos */
+.ia-modelcard { background: color-mix(in srgb, #fff 94%, var(--horizonte)); border: 0; border-radius: 6px; color: var(--noche); padding: clamp(20px, 3vw, 32px); box-shadow: 0 0 0 1px color-mix(in srgb, var(--horizonte) 40%, transparent); }
+.ia-modelcard .hz-board__head { color: color-mix(in srgb, var(--noche) 62%, transparent); padding: 0 0 18px; border-bottom: 2px solid var(--noche); }
+.ia-modelcard .hz-board__head span:last-child { color: #5B34D6; }
+.ia-modelcard__name { padding: 18px 0 8px; font-size: clamp(1.6rem, 3vw, 2.2rem); letter-spacing: -.03em; }
+.ia-modelcard dl { gap: 0; }
+.ia-modelcard dl > div { padding: 14px 0; border: 0; border-top: 1px solid color-mix(in srgb, var(--noche) 16%, transparent); border-radius: 0; background: none; }
+.ia-modelcard dt { font: 600 .85rem/1.4 var(--font-text); letter-spacing: 0; text-transform: none; color: #5B34D6; }
+.ia-modelcard dd { color: var(--noche); font-size: 1rem; }
+.ia-meter { display: block; height: 8px; margin-top: 10px; background: color-mix(in srgb, var(--noche) 12%, transparent); }
+.ia-meter i { display: block; height: 100%; width: calc(var(--v) * 100%); background: var(--horizonte); }
+:root[data-mode="ia"] .hz-roles { gap: 0; }
+:root[data-mode="ia"] .hz-roles li { position: relative; padding: 12px 0 12px 36px; border: 0; }
+:root[data-mode="ia"] .hz-roles li::before { content: ""; position: absolute; left: 0; top: 17px; width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--amanecer); }
+:root[data-mode="ia"] .hz-roles li::after { content: ""; position: absolute; left: 7px; top: 34px; bottom: -12px; width: 2px; background: color-mix(in srgb, var(--horizonte) 60%, transparent); }
+:root[data-mode="ia"] .hz-roles li:last-child::after { display: none; }
+:root[data-mode="ia"] .hz-roles h3 { font: 700 1.15rem/1.3 var(--font-display); letter-spacing: -.01em; }
+
+/* Videojuegos: selección de clase y tablero de logros */
+:root[data-mode="videojuegos"] .hz-team__grid { grid-template-columns: minmax(0, 1fr); }
+:root[data-mode="videojuegos"] .hz-roles { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+:root[data-mode="videojuegos"] .hz-roles li {
+  display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 2px 16px; align-items: center; padding: 16px; border: 2px solid var(--hz-border); background: var(--medianoche);
+  box-shadow: 4px 4px 0 var(--horizonte); transition: translate .15s var(--ease-out), box-shadow .15s var(--ease-out);
+}
+:root[data-mode="videojuegos"] .hz-roles li::before {
+  content: attr(data-k); grid-row: 1 / span 2; display: grid; place-items: center; width: 48px; height: 48px; background: var(--amanecer); color: var(--noche);
+  font: 700 .9rem/1 var(--font-mono); box-shadow: 3px 3px 0 var(--horizonte);
+}
+@media (hover: hover) and (pointer: fine) { :root[data-mode="videojuegos"] .hz-roles li:hover { translate: 2px 2px; box-shadow: 2px 2px 0 var(--horizonte); border-color: var(--hz-border); } }
+.vj-board { border-radius: 0; border: 2px solid var(--amanecer); box-shadow: 6px 6px 0 var(--horizonte); padding: clamp(18px, 3vw, 32px); }
+.vj-board .hz-board__head { align-items: center; padding-bottom: 20px; font-size: .85rem; color: #fff; }
+.vj-prog { display: inline-flex; gap: 5px; }
+.vj-prog i { width: 22px; height: 12px; background: color-mix(in srgb, #fff 14%, transparent); }
+.vj-prog i.on { background: var(--amanecer); }
+.vj-achievements { grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr)); gap: 14px; }
+.vj-ach { grid-template-columns: minmax(0, 1fr); gap: 12px; align-items: start; align-content: start; padding: 18px 14px; border-radius: 0; text-align: left; }
+.vj-ach__badge { width: 56px; height: 56px; border-radius: 0; font-size: 1.5rem; box-shadow: 4px 4px 0 var(--horizonte); }
+.vj-ach--locked .vj-ach__badge { box-shadow: none; }
+.vj-ach h3 { font: 700 1.05rem/1.25 var(--font-display); }
+@media (max-width: 900px) {
+  :root[data-mode] .hz-roles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  :root[data-mode="ia"] .hz-roles { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 620px) { :root[data-mode] .hz-roles { grid-template-columns: minmax(0, 1fr); } }
