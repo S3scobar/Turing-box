@@ -722,5 +722,39 @@ p { margin: 0; text-wrap: pretty; }
   .hz-hero__copy { display: contents; }
   .hz-hero__title { grid-column: 1; grid-row: 1; align-self: end; margin: 0; padding: calc(var(--header-h) + 28px) 0 clamp(20px, 3.5vh, 40px); font-size: clamp(2.4rem, 5.6vw, 5rem); line-height: .98; letter-spacing: -.035em; }
   .hz-hero__lead { grid-column: 1; grid-row: 2; align-self: start; margin: 0; padding-top: clamp(20px, 3.5vh, 36px); }
-  .hz-hero__sym, .vj-hero__sym { grid-column: 2; grid-row: 1 / span 2; align-self: center; justify-self: end; width: min(100%, 520px); margin-right: -3vw; filter: none; }
+  .hz-hero__sym, .vj-hero__sym { grid-column: 2; grid-row: 1 / span 2; align-self: center; justify-self: end; width: min(100%, 520px, 58svh); margin-right: -3vw; filter: none; }
+}
+
+/* Selector de nodo: texto con subrayado del color de cada nodo, sin teclas ni íconos */
+:root .mode-switch { gap: clamp(14px, 2.6vw, 34px); padding-bottom: 0; }
+:root .mode-switch .mode-switch__btn {
+  min-height: 44px; padding: 0 2px; border: 0; border-radius: 0; background: none; box-shadow: none; translate: none;
+  color: var(--ink); font: 600 .95rem/1 var(--font-display); letter-spacing: -.01em;
+  transition: color .2s, scale .16s var(--ease-out);
+}
+.mode-switch .mode-switch__btn .icon { display: none; }
+.mode-switch .mode-switch__btn::after {
+  content: ""; position: absolute; left: 2px; right: 2px; bottom: 7px; height: 2px; background: var(--node);
+  scale: 0 1; transform-origin: left; transition: scale .3s var(--ease-out);
+}
+:root .mode-switch .mode-switch__btn:active { scale: .96; }
+:root[data-mode] .mode-switch .mode-switch__btn { color: color-mix(in srgb, #fff 64%, transparent); }
+:root[data-mode] .mode-switch .mode-switch__btn[aria-checked="true"] { color: #fff; }
+:root .mode-switch .mode-switch__btn[aria-checked="true"] { translate: none; box-shadow: none; }
+:root .mode-switch .mode-switch__btn[aria-checked="true"]::after { scale: 1 1; }
+@media (hover: hover) and (pointer: fine) {
+  .mode-switch .mode-switch__btn:hover::after { scale: 1 1; }
+  :root[data-mode] .mode-switch .mode-switch__btn:hover { color: #fff; }
+}
+@media (max-width: 760px) {
+  :root .mode-switch { gap: 14px; }
+  :root .mode-switch .mode-switch__btn { font-size: .82rem; padding: 0 1px; }
+}
+
+/* La línea del horizonte es el borde de la primera fila: nunca pisa el titular */
+@media (min-width: 901px) {
+  .hz-horizon {
+    position: relative; top: auto; left: auto; right: auto; grid-column: 1 / -1; grid-row: 1; align-self: end; z-index: 0;
+    margin: 0 calc(-1 * max(var(--pad), calc((100vw - 1200px) / 2)));
+  }
 }
