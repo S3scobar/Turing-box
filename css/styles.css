@@ -924,3 +924,20 @@ p { margin: 0; text-wrap: pretty; }
   :root[data-mode="ia"] .hz-roles { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 620px) { :root[data-mode] .hz-roles { grid-template-columns: minmax(0, 1fr); } }
+
+/* ---------- Fundadores y líderes (inicio, tras la inscripción): franja corta que admite más personas ---------- */
+.founders { padding: clamp(48px, 8vh, 80px) var(--pad); background: var(--mist); text-align: center; }
+.founders__title { font-size: clamp(1.4rem, 2.6vw, 1.9rem); letter-spacing: -.02em; }
+.founders__list { display: flex; flex-wrap: wrap; justify-content: center; gap: 36px clamp(20px, 5vw, 64px); margin: clamp(28px, 4vw, 40px) 0 0; padding: 0; list-style: none; }
+.person { width: clamp(112px, 16vw, 168px); }
+.person figure { margin: 0; }
+.person__media { position: relative; isolation: isolate; aspect-ratio: 1; }
+.person__media img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 50%; background: var(--line); transition: scale .5s var(--ease-out, cubic-bezier(.23, 1, .32, 1)); }
+.person__media::after { content: ""; position: absolute; inset: -8px; z-index: -1; border: 2px dashed var(--c); border-radius: 50%; transition: rotate .7s var(--ease-out, cubic-bezier(.23, 1, .32, 1)); }
+.person figcaption { margin-top: 20px; }
+.person strong { display: block; font: 700 1rem/1.25 var(--font-display); letter-spacing: -.01em; }
+.person figcaption span { display: block; margin-top: 2px; color: var(--muted); font-size: .92rem; font-weight: 500; line-height: 1.35; }
+@media (hover: hover) and (pointer: fine) {
+  .person:hover .person__media img { scale: 1.05; }
+  .person:hover .person__media::after { rotate: 45deg; }
+}
